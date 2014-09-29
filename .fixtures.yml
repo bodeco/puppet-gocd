@@ -1,0 +1,9 @@
+fixtures:
+  repositories:
+    stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+    archive: 'https://github.com/nanliu/puppet-archive.git'
+    staging: 'https://github.com/nanliu/puppet-staging.git'
+    java: 'https://github.com/bodeco/puppet-java.git'
+    helper: 'https://github.com/bodeco/bodeco_module_helper.git'
+  symlinks:
+    gocd: source_dir

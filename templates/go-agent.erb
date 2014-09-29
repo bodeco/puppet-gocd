@@ -1,2 +1,8 @@
-export GO_SERVER="<%= scope.lookupvar('go::agent::server ') %>"
-export GO_SERVER_PORT="<%= scope.lookupvar('go::agent::port ') %>"
+export GO_SERVER="<%= @server %>"
+export GO_SERVER_PORT="<%= @port %>"
+<% if @agent_work_dir %>export AGENT_WORK_DIR="<%= @agent_work_dir %>"
+<% end -%>
+<% if @java_home %>export JAVA_HOME="<%= @java_home %>"
+<% end -%>
+DAEMON=Y
+VNC=N
