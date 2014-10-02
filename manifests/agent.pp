@@ -1,19 +1,19 @@
 # Install go cd agent from http://www.go.cd/download/
 class gocd::agent (
-  $url              = $gocd::params::url,
-  $version          = $gocd::params::version,
-  $build            = $gocd::params::build,
-  $source           = $gocd::params::source,
-  $server           = $gocd::params::server,
-  $port             = $gocd::params::port,
-  $agent_work_dir   = $gocd::params::agent_work_dir,
-  $java_home        = $gocd::params::java_home,
-  $package_ensure   = $gocd::params::package_ensure,
-  $package_provider = $gocd::params::package_provider,
-  $service_ensure   = $gocd::params::service_ensure,
+  $url               = $gocd::params::url,
+  $version           = $gocd::params::version,
+  $build             = $gocd::params::build,
+  $source            = $gocd::params::source,
+  $server            = $gocd::params::server,
+  $port              = $gocd::params::port,
+  $agent_work_dir    = $gocd::params::agent_work_dir,
+  $java_home         = $gocd::params::java_home,
+  $package_ensure    = $gocd::params::package_ensure,
+  $package_provider  = $gocd::params::package_provider,
+  $service_ensure    = $gocd::params::service_ensure,
   $auto_register_key = undef,
-  $resources = [],
-  $environments = undef,
+  $resources         = [],
+  $environments      = undef,
 ) inherits gocd::params {
 
   validate_array($resources)
