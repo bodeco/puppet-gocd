@@ -24,59 +24,69 @@ class gocd::agent (
     'Redhat': {
       require '::java'
 
+      $package_name = 'go-agent'
       $package_source = $source_url
-
-      package { 'go-agent':
-        ensure   => $package_ensure,
-        provider => $package_provider,
-        source   => $package_source,
-      }
+      $package_options = undef
+      $service_name = 'go-agent'
+      $owner = 'go'
+      $group = 'go'
 
       file { '/etc/default/go-agent':
         ensure  => 'present',
-        owner   => 'go',
-        group   => 'go',
+        owner   => $owner,
+        group   => $group,
         mode    => '0644',
         content => template('gocd/go-agent.erb'),
-        require => Package['go-agent'],
+        require => Package[$package_name],
+        notify  => Service[$service_name],
       }
 
-      file { "${agent_work_dir}/config":
-        ensure  => directory,
-        owner   => 'go',
-        group   => 'go',
-        mode    => '0755',
-        require => Package['go-agent'],
-      }
-
-      # For additional information see:
-      # http://www.thoughtworks.com/products/docs/go/current/help/agent_auto_register.html
-      file { 'autoregister.properties':
-        path    => "${agent_dir}/config/autoregister.properties",
-        owner   => 'go',
-        group   => 'go',
-        mode    => '0644',
-        content => template('gocd/autoregister.properties.erb'),
-      }
-
-      service { 'go-agent':
-        ensure    => $service_ensure,
-        enable    => true,
-        subscribe => File['/etc/default/go-agent', 'autoregister.properties'],
-      }
     }
     'Windows': {
       $archive_path = "C:/temp/go-agent-${version}-${build}-setup.exe"
 
+      $package_name = 'Go Agent'
+      $package_source = $archive_path
+      $package_options = [ '/S', "/SERVERIP=${server}", "/GO_AGENT_JAVA_HOME=${java_home}" ]
+      $service_name = 'Go Agent'
+      $owner = 'S-1-5-32-544'
+      $group = 'S-1-5-18'
+
       archive { $archive_path:
         source => $source_url,
-      }
-
-      exec { 'install-agent':
-        command     => "${archive_path} /S /SERVERIP=${server} /GO_AGENT_JAVA_HOME=${java_home}",
-        subscribe   => Archive[$archive_path],
-        refreshonly => true,
+        before => Package[$package_name],
       }
     }
+  }
+
+  package { $package_name:
+    ensure          => $package_ensure,
+    provider        => $package_provider,
+    source          => $package_source,
+    install_options => $package_options,
+  }
+
+  file { "${agent_work_dir}/config":
+    ensure  => directory,
+    owner   => $owner,
+    group   => $group,
+    mode    => '0755',
+    require => Package[$package_name],
+  }
+
+  # For additional information see:
+  # http://www.thoughtworks.com/products/docs/go/current/help/agent_auto_register.html
+  file { 'autoregister.properties':
+    path    => "${agent_work_dir}/config/autoregister.properties",
+    owner   => $owner,
+    group   => $group,
+    mode    => '0644',
+    content => template('gocd/autoregister.properties.erb'),
+  }
+
+  service { $service_name:
+    ensure    => $service_ensure,
+    enable    => true,
+    subscribe => File['autoregister.properties'],
   }
 }

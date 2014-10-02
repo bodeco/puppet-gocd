@@ -9,7 +9,6 @@ class gocd::params {
   case $::osfamily {
     'Redhat': {
       $agent_work_dir   = '/var/lib/go-agent'
-      $agent_dir        = '/var/lib/go-agent'
       $java_home        = '/usr/java/latest'
       $source           = '%s/gocd-rpm/go-agent-%s-%s.noarch.rpm'
       $package_ensure   = 'present'
@@ -18,7 +17,7 @@ class gocd::params {
     }
 
     'Windows': {
-      $agent_work_dir   = undef
+      $agent_work_dir   = 'C:\\Program Files (x86)\\Go Agent'
       $java_home        = undef
       $source           = '%s/gocd/go-agent-%s-%s-setup.exe'
       $package_ensure   = undef
