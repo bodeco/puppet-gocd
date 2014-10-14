@@ -41,6 +41,13 @@ class gocd::agent (
         notify  => Service[$service_name],
       }
 
+      file { '/var/go':
+        ensure  => directory,
+        owner   => $owner,
+        group   => $group,
+        mode    => '0755',
+        require => Package[$package_name],
+      }
     }
     'Windows': {
       $archive_path = "C:/temp/go-agent-${version}-${build}-setup.exe"
