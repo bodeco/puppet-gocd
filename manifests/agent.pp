@@ -50,7 +50,7 @@ class gocd::agent (
       }
     }
     'Windows': {
-      $archive_path = "C:/temp/go-agent-${version}-${build}-setup.exe"
+      $archive_path = "C:/Windows/Temp/go-agent-${version}-${build}-setup.exe"
 
       $package_name = 'Go Agent'
       $package_source = $archive_path
