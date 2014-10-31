@@ -22,7 +22,7 @@ class gocd::params {
       $source           = '%s/gocd/go-agent-%s-%s-setup.exe'
       $package_ensure   = undef
       $package_provider = undef
-      $service_ensure   = undef
+      $service_ensure   = 'running'
     }
     default: { fail("${::osfamily} not supported for gocd module.") }
   }
