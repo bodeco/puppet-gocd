@@ -88,6 +88,7 @@ class gocd::agent (
     owner   => $owner,
     group   => $group,
     mode    => '0644',
+    replace => false,
     content => template('gocd/autoregister.properties.erb'),
   }
 
