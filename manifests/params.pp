@@ -17,7 +17,8 @@ class gocd::params {
     }
 
     'Windows': {
-      $agent_work_dir   = 'C:\\Program Files (x86)\\Go Agent'
+      $agent_work_dir   = 'C:/Program Files (x86)/Go Agent'
+      # please be sure and quote any spaces if required
       $java_home        = undef
       $source           = '%s/gocd/go-agent-%s-%s-setup.exe'
       $package_ensure   = undef
