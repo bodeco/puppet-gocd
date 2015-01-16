@@ -15,7 +15,7 @@ class gocd::agent (
   $resources         = [],
   $environments      = undef,
 ) inherits gocd::params {
-
+  include archive
   validate_array($resources)
 
   $source_url = sprintf($source, $url, $version, $build)
@@ -50,6 +50,9 @@ class gocd::agent (
       }
     }
     'Windows': {
+      # the go agent comes bundled with a jre already so its not necessary to install java
+      #unless we want to control the version of java it uses
+
       $archive_path = "C:/Windows/Temp/go-agent-${version}-${build}-setup.exe"
 
       $package_name = 'Go Agent'
@@ -89,6 +92,7 @@ class gocd::agent (
     group   => $group,
     mode    => '0644',
     replace => false,
+    require => File["${agent_work_dir}/config"],
     content => template('gocd/autoregister.properties.erb'),
   }
 

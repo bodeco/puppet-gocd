@@ -7,3 +7,4 @@ fixtures:
     helper: 'https://github.com/bodeco/bodeco_module_helper.git'
   symlinks:
     gocd: "#{source_dir}"
+

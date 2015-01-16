@@ -5,17 +5,17 @@ describe 'gocd::agent' do
   describe 'Windows' do
     include_context :hiera
     let(:facts) do
-      { osfamily: 'Windows', operatingsystem: 'windows' }
+      { osfamily: 'Windows', operatingsystem: 'windows', staging_windir: 'C:\\ProgramData\\staging' }
     end
     let(:params) do
       {
-        build: '50', version: '1.0'
+        build: '50', version: '1.0', java_home: 'C:/Program Files/Java/jre7'
       }
     end
     it { should contain_archive('C:/Windows/Temp/go-agent-1.0-50-setup.exe') }
     it { should contain_package('Go Agent')  }
-    it { should contain_file('autoregister.properties') }
-
+    it { should contain_file('autoregister.properties').with_path("C:/Program Files (x86)/Go Agent/config/autoregister.properties") }
+    it { should contain_file('C:/Program Files (x86)/Go Agent/config') }
   end
   describe 'Linux' do
     include_context :hiera
