@@ -1,3 +1,3 @@
 agent.auto.register.key=<%= @auto_register_key %>
-agent.auto.register.resources=<%= @resources.join(',') %>
+agent.auto.register.resources=<%= (@resources +  @dynamic_resources).join(',') %>
 agent.auto.register.environments=<%= @environments %>

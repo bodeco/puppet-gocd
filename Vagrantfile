@@ -4,13 +4,15 @@ vm(
   :hostname => 'gocd-lin',
   :module   => 'gocd',
   :memory   => 2048,
-  :os_type  => :linux,
+  :type  => :linux,
   :box      => 'oracle65-pe3.2.3'
 )
 vm(
   :hostname => 'gocd-win',
-  :os_type  => :windows,
+  :type  => :windows,
   :module   => 'gocd',
-  :memory   => 2048,
+  :memory   => 4096,
+  :cpu      => 2,
+  :gui      => true,
   :box      => 'windows2008r2'
 )

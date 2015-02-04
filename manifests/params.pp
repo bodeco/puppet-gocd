@@ -7,7 +7,7 @@ class gocd::params {
   $port    = 8153
 
   case $::osfamily {
-    'Redhat': {
+    'RedHat': {
       $agent_work_dir   = '/var/lib/go-agent'
       $java_home        = '/usr/java/latest'
       $source           = '%s/gocd-rpm/go-agent-%s-%s.noarch.rpm'
@@ -16,7 +16,7 @@ class gocd::params {
       $service_ensure   = 'running'
     }
 
-    'Windows': {
+    'windows': {
       $agent_work_dir   = 'C:/Program Files (x86)/Go Agent'
       # please be sure and quote any spaces if required
       $java_home        = undef
