@@ -5,6 +5,8 @@ fixtures:
     staging: 'https://github.com/nanliu/puppet-staging.git'
     java: 'https://github.com/bodeco/puppet-java.git'
     helper: 'https://github.com/bodeco/bodeco_module_helper.git'
+    pe_gem:
+      repo: http://git.corp.ositax.com/puppet-projects/puppetlabs-pe_gem.git
+      ref: 0.1.0
   symlinks:
     gocd: "#{source_dir}"
-

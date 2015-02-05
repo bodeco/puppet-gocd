@@ -1,4 +1,11 @@
 # Install go cd agent from http://www.go.cd/download/
+# resources: is the tags that get registered with the go server
+# currently we cannot change them once a agent has registered
+# It might be a good idea to create a defined type using the concat module
+# or a resource collector to piece together all the resources that are registered
+# in other classes outside of this module rather than passing in a static set
+# of resources.
+#
 class gocd::agent (
   $url               = $gocd::params::url,
   $version           = $gocd::params::version,
@@ -21,7 +28,7 @@ class gocd::agent (
   $source_url = sprintf($source, $url, $version, $build)
 
   case $::osfamily {
-    'Redhat': {
+    'RedHat': {
       require '::java'
 
       $package_name = 'go-agent'
@@ -48,10 +55,13 @@ class gocd::agent (
         mode    => '0755',
         require => Package[$package_name],
       }
+    # in some cases you many want to declare some dynamic agent resources
+    # since we know details about the host.
+      $dynamic_resources = ["${::operatingsystem}${::lsbdistrelease}"]
     }
-    'Windows': {
-      # the go agent comes bundled with a jre already so its not necessary to install java
-      #unless we want to control the version of java it uses
+    'windows': {
+    # the go agent comes bundled with a jre already so its not necessary to install java
+    #unless we want to control the version of java it uses
 
       $archive_path = "C:/Windows/Temp/go-agent-${version}-${build}-setup.exe"
 
@@ -66,6 +76,13 @@ class gocd::agent (
         source => $source_url,
         before => Package[$package_name],
       }
+      # in some cases you many want to declare some dynamic agent resources
+      # since we know details about the host.
+      $dynamic_resources = ["${::operatingsystem}${::operatingsystemrelease}"]
+    }
+
+    default: {
+      fail("OS ${::osfamily} is not a supported OS")
     }
   }
 
