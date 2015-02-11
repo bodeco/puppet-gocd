@@ -4,6 +4,6 @@ export GO_SERVER_PORT="<%= @port %>"
 <% end -%>
 <% if @java_home %>export JAVA_HOME="<%= @java_home %>"
 <% end -%>
-export PATH=<%= @environment_path.join(':') %>
+export PATH=<%= @environment_path.join(':') %>:$PATH
 DAEMON=Y
 VNC=N
