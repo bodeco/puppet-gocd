@@ -21,7 +21,8 @@ class gocd::agent (
   $auto_register_key = undef,
   $resources         = [],
   $environments      = undef,
-  $environment_path  = []           # default paths for agent to lookup commands
+  $environment_path  = [],           # default paths for agent to lookup commands
+  $hostgroup_split_char = '/'        # character used to split on the hostgroup name if using foreman
 ) inherits gocd::params {
   include archive
   validate_array($resources)
@@ -85,6 +86,12 @@ class gocd::agent (
     default: {
       fail("OS ${::osfamily} is not a supported OS")
     }
+  }
+  if $hostgroup and $hostgroup_split_char {
+    $hostgroup_resources = split($::hostgroup, $hostgroup_split_char)
+  }
+  else {
+    $hostgroup_resources = []
   }
 
   package { $package_name:
