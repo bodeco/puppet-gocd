@@ -21,6 +21,7 @@ class gocd::agent (
   $auto_register_key = undef,
   $resources         = [],
   $environments      = undef,
+  $environment_path  = ['$PATH']           # default path for agent to lookup commands
 ) inherits gocd::params {
   include archive
   validate_array($resources)
