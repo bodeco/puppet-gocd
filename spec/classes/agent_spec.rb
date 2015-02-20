@@ -32,5 +32,11 @@ describe 'gocd::agent' do
     it { should contain_file('/var/go') }
     it { should contain_package('go-agent')   }
     it { should contain_file('autoregister.properties') }
+    it { should contain_file('/var/go/.bashrc').with({:ensure => 'link',
+                                                      :target => '/etc/default/go-agent',
+                                                     :require => '[File[/etc/default/go-agent]{:path=>"/etc/default/go-agent"}, File[/var/go]{:path=>"/var/go"}]',
+                                                     :notify  => 'Service[go-agent]'
+                                                     })}
+
   end
 end
