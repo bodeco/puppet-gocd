@@ -64,13 +64,13 @@ class gocd::agent (
         mode    => '0755',
         require => Package[$package_name],
       }
-    # in some cases you many want to declare some dynamic agent resources
-    # since we know details about the host.
+      # in some cases you many want to declare some dynamic agent resources
+      # since we know details about the host.
       $dynamic_resources = ["${::operatingsystem}${::lsbdistrelease}"]
     }
     'windows': {
-    # the go agent comes bundled with a jre already so its not necessary to install java
-    # unless we want to control the version of java it uses
+      # the go agent comes bundled with a jre already so its not necessary to install java
+      # unless we want to control the version of java it uses
 
       $archive_path = "C:/Windows/Temp/go-agent-${version}-${build}-setup.exe"
 
@@ -94,10 +94,9 @@ class gocd::agent (
       fail("OS ${::osfamily} is not a supported OS")
     }
   }
-  if $hostgroup and $hostgroup_split_char {
+  if $::hostgroup and $hostgroup_split_char {
     $hostgroup_resources = split($::hostgroup, $hostgroup_split_char)
-  }
-  else {
+  } else {
     $hostgroup_resources = []
   }
 
