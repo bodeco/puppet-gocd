@@ -86,8 +86,20 @@ class gocd::agent (
         before => Package[$package_name],
       }
       # in some cases you many want to declare some dynamic agent resources
-      # since we know details about the host.
+      # since we know details about the host. As we think of more resources to add
+      # we can put in the array below
       $dynamic_resources = ["${::operatingsystem}${::operatingsystemrelease}"]
+
+      # the exec below sets the failure responses in case windows fails to start the agent
+      exec { 'set_failure_go_agent':
+        command => "\$svc = gwmi win32_service -filter \"name='Go Agent'\"; sc.exe failure \$svc.name reset= 86400 actions= restart/5000/restart/5000/restart/5000",
+        logoutput   => true,
+        path        => $::path,
+        provider    => powershell,
+        refreshonly => true,
+        subscribe   => Package["${::gocd::agent::package_name}"],
+        require     => Service["${::gocd::agent::service_name}"],
+      }
     }
 
     default: {

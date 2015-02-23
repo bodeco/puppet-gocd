@@ -5,7 +5,7 @@ describe 'gocd::agent' do
   describe 'Windows' do
     include_context :hiera
     let(:facts) do
-      { osfamily: 'Windows', operatingsystem: 'windows', staging_windir: 'C:\\ProgramData\\staging' }
+      { osfamily: 'Windows', path: 'c:\programdata', operatingsystem: 'windows', staging_windir: 'C:\\ProgramData\\staging' }
     end
     let(:params) do
       {
@@ -16,6 +16,9 @@ describe 'gocd::agent' do
     it { should contain_package('Go Agent')  }
     it { should contain_file('autoregister.properties').with_path("C:/Program Files (x86)/Go Agent/config/autoregister.properties") }
     it { should contain_file('C:/Program Files (x86)/Go Agent/config') }
+    it { should contain_exec('set_failure_go_agent').with({:path => 'c:\programdata',
+                             :command => "$svc = gwmi win32_service -filter \"name='Go Agent'\"; sc.exe failure $svc.name reset= 86400 actions= restart/5000/restart/5000/restart/5000"
+                                                          })}
   end
   describe 'Linux' do
     include_context :hiera
